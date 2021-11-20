@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/HomeView.vue";
+import RetirosPanel from "../components/Retiros.vue";
 
 Vue.use(VueRouter);
 
@@ -9,6 +10,13 @@ const routes = [
     path: "/",
     name: "HomeView",
     component: Home,
+    children: [
+      {
+        path: "/retiros-panel",
+        name: "retiros-panel",
+        component: RetirosPanel,
+      },
+    ],
   },
   {
     path: "/about",
