@@ -2,9 +2,16 @@
   <v-container>
     <v-card elevation="24">
       <v-card-title>
+        <v-row justify="center my-4">
+          <span>Bienvenido al Home</span>
+          <!-- {{retiros}} -->
+        </v-row>
+      </v-card-title>
+      <v-card-subtitle>
         <v-row justify="space-between">
           <v-col cols="8">
             <h2>Retiros Pendientes</h2>
+            <!-- {{retiros}} -->
           </v-col>
           <v-col cols="2">
             <v-btn class="ml-3 primary" @click="abrirPanelRetiros"
@@ -12,7 +19,7 @@
             >
           </v-col>
         </v-row>
-      </v-card-title>
+      </v-card-subtitle>
       <v-card-text>
         <v-simple-table>
           <template>
@@ -26,15 +33,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in retiros2" :key="item.id" v-show="item.estado">
+              <tr v-for="item in retiros" :key="item.id" v-show="item.estado">
                 <td>
-                  {{ item.id }}
+                  {{ item._id }}
                 </td>
                 <td>
                   {{ item.cliente }}
                 </td>
                 <td>
-                  {{ item.retiro }}
+                  {{ item.descripcion }}
                 </td>
                 <td>
                   {{ item.estado }}
@@ -119,18 +126,18 @@
                   </thead>
                   <tbody>
                     <tr
-                      v-for="item in retiros2"
+                      v-for="item in retiros"
                       :key="item.id"
                       v-show="item.estado === false"
                     >
                       <td>
-                        {{ item.id }}
+                        {{ item._id }}
                       </td>
                       <td>
                         {{ item.cliente }}
                       </td>
                       <td>
-                        {{ item.retiro }}
+                        {{ item.descripcion }}
                       </td>
                       <td>
                         {{ item.estado }}
@@ -214,35 +221,12 @@ export default {
     descripcion: "",
     estado: true,
     estadoSelecccionado: false,
-    retiros: [
-      {
-        id: 1,
-        cliente: "Mirta Armesto",
-        retiro: "Retiro de prueba",
-        estado: true,
-      },
-      {
-        id: 2,
-        cliente: "Mirta Armesto",
-        retiro: "Retiro de prueba 2",
-        estado: true,
-      },
-      {
-        id: 3,
-        cliente: "Refans",
-        retiro: "Retiro de prueba 3",
-        estado: true,
-      },
-      {
-        id: 4,
-        cliente: "Refans",
-        retiro: "Retiro de prueba 4",
-        estado: true,
-      },
-    ],
 
     cliente: ["Mirta Armesto", "Rafans", "Allo"],
   }),
+  mounted() {
+    this.$store.dispatch("getRetiros");
+  },
 
   methods: {
     ...mapMutations(["setEstadoRetiro"]),
@@ -271,7 +255,7 @@ export default {
   },
   computed: {
     ...mapState({
-      retiros2: (state) => state.retiros2,
+      retiros: (state) => state.retiros,
     }),
   },
 };

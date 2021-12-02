@@ -6,7 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    datos: [],
+    auth: false,
+    retiros: [],
     retiros2: [
       {
         id: 1,
@@ -23,6 +24,10 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
+
+    setAuth(state, payload) {
+      state.auth = payload
+    },
     agregarRetiro2(state, payload) {
       state.retiros2.push(payload);
     },
@@ -31,16 +36,20 @@ export default new Vuex.Store({
       state.datos = payload;
     },
 
+    agregarRetiros(state, payload) {
+      state.retiros = payload
+    },
+
     setEstadoRetiro(state, payload) {
       state.retiros2.estado = payload;
     },
   },
   actions: {
-    getDatos({ commit }) {
+    getRetiros({ commit }) {
       axios
-        .get("https://jsonplaceholder.typicode.com/users")
+        .get("https://mcga-2022-be.herokuapp.com/api/retiros")
         .then((response) => {
-          commit("setDatos", response.data);
+          commit("agregarRetiros", response.data);
         });
     },
   },

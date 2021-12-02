@@ -2,6 +2,7 @@
   <v-dialog :value="true" width="600" persistent>
     <v-card>
       <v-card-title> Agregar Retiros </v-card-title>
+      {{ retiros }}
       <v-card-text>
         <template>
           <v-card class="pa-2">
@@ -56,7 +57,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "RetirosPanel",
   data() {
@@ -67,8 +68,8 @@ export default {
     };
   },
 
-  created() {
-    this.$store.dispatch("getDatos");
+  mounted() {
+    this.$store.dispatch("getRetiros");
   },
   methods: {
     ...mapMutations(["agregarRetiro2"]),
@@ -88,7 +89,11 @@ export default {
     },
   },
 
-  computed: {},
+  computed: {
+    ...mapState({
+      retiros: (state) => state.retiros,
+    }),
+  },
 };
 </script>
 
