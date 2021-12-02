@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    auth: false,
+    auth: true,
     retiros: [],
     retiros2: [
       {
@@ -27,7 +27,7 @@ export default new Vuex.Store({
 
     setAuth(state, payload) {
       state.auth = payload
-    },
+    }, 
     agregarRetiro2(state, payload) {
       state.retiros2.push(payload);
     },

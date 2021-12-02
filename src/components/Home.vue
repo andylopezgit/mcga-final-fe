@@ -2,13 +2,13 @@
   <v-container>
     <v-card elevation="24">
       <v-card-title>
-        <v-row justify="center my-4">
+        <v-row justify="center">
           <span>Bienvenido al Home</span>
           <!-- {{retiros}} -->
         </v-row>
       </v-card-title>
       <v-card-subtitle>
-        <v-row justify="space-between">
+        <v-row justify="center">
           <v-col cols="8">
             <h2>Retiros Pendientes</h2>
             <!-- {{retiros}} -->

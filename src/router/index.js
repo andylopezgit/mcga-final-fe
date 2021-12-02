@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/HomeView.vue";
 import RetirosPanel from "../components/Retiros.vue";
 import store from "../store";
+import Denegado from "../components/Denegado.vue"
 
 Vue.use(VueRouter);
 
@@ -12,6 +13,12 @@ const routes = [
     path: "/",
     redirect: { name: 'LoginView' }
 
+  },
+
+  {
+    path:"/denegado",
+    name: "denegado",
+    component: Denegado
   },
 
 
@@ -62,7 +69,7 @@ router.beforeEach((to, from, next) => {
     if (store.state.auth) {
       next();
     } else {
-      next({ name: "LoginView" });
+      next({ name: "denegado" })
     }
   } else {
     next();
