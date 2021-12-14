@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     login() {
-      if (this.nombre === "andy" && this.pass === "1234") {
+      if (this.nombre === "Esteban" && this.pass === "1234") {
         this.$store.commit("setAuth", true);
         this.$router.replace({
           name: "HomeView",

@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    auth: true,
+    auth: false,
     retiros: [],
     retiros2: [
       {
@@ -46,8 +46,11 @@ export default new Vuex.Store({
   },
   actions: {
     getRetiros({ commit }) {
+      let config = {
+        headers: {'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2Mzk0ODY3NjJ9.Mxy_36DWeZLN-OX6vyWkhApGi145RRmxa_EzZdbTGDA'},
+      }
       axios
-        .get("https://mcga-2022-be.herokuapp.com/api/retiros")
+        .get("https://mcga-2022-be.herokuapp.com/api/retiros", config)
         .then((response) => {
           commit("agregarRetiros", response.data);
         });
