@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/HomeView.vue";
 import RetirosPanel from "../components/Retiros.vue";
-import store from "../store";
+// import store from "../store";
 import Denegado from "../components/Denegado.vue"
 
 Vue.use(VueRouter);
@@ -27,7 +27,7 @@ const routes = [
     path: "/home",
     name: "HomeView",
     meta: {
-      requiresAuth: true
+      //  
     },
     component: Home,
     children: [
@@ -63,19 +63,16 @@ const router = new VueRouter({
   routes,
 
 });
-
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.state.auth) {
-      next();
-    } else {
-      next({ name: "denegado" })
-    }
-  } else {
-    next();
-  }
-})
-
-
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     if (store.state.auth) {
+//       next();
+//     } else {
+//       next({ name: "denegado" })
+//     }
+//   } else {
+//     next();
+//   }
+// })
 
 export default router;

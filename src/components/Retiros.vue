@@ -1,8 +1,8 @@
 <template>
-  <v-dialog :value="true" width="600" persistent>
+  <v-dialog :value="true" width="480" persistent>
     <v-card>
-      <v-card-title> Agregar Retiros </v-card-title>
-      {{ retiros }}
+      <v-card-title> Agregar Retiros (Vuetify) </v-card-title>
+      <!-- {{ retiros }} -->
       <v-card-text>
         <template>
           <v-card class="pa-2">
@@ -11,16 +11,18 @@
                 <v-row>
                   <v-col cols="12">
                     <v-select
-                      v-model="clienteSeleccionado"
-                      label="Cliente"
+                      v-model="retiro.cliente"
+                      label="Clientes"
                       required
-                      :items="cliente"
+                      :items="clientes"
+                      item-text="descripcion"
                     >
                     </v-select>
                   </v-col>
                   <v-col cols="12">
                     <v-text-field
-                      v-model="descripcion"
+                      v-model="retiro.descripcion
+                      "
                       placeholder="Ej: Retiro de 2 cajas"
                       required
                     >
@@ -65,11 +67,18 @@ export default {
       cliente: ["Mirta Armesto", "Refans", "Allo"],
       clienteSeleccionado: "",
       descripcion: "",
+      retiro: {
+        cliente: '',
+        descripcion: '',
+        estado: true
+      }
     };
+
   },
 
   mounted() {
     this.$store.dispatch("getRetiros");
+    this.$store.dispatch("getClientes")
   },
   methods: {
     ...mapMutations(["agregarRetiro2"]),
@@ -80,18 +89,15 @@ export default {
     },
 
     agregarRetiroStore() {
-      this.$store.commit("agregarRetiro2", {
-        id: 3,
-        cliente: this.clienteSeleccionado,
-        retiro: this.descripcion,
-        estado: true,
-      });
+      this.$store.commit('addRetiro', this.retiro)
+      this.$store.dispatch('saveretiro')
     },
   },
 
   computed: {
     ...mapState({
       retiros: (state) => state.retiros,
+      clientes: (state) => state.clientes
     }),
   },
 };

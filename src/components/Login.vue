@@ -8,8 +8,8 @@
           </v-card-title>
           <v-card-text>
             <form class="pa-2">
-              <v-text-field label="Nombre" v-model="nombre"> </v-text-field>
-              <v-text-field label="Contraseña" v-model="pass"> </v-text-field>
+              <v-text-field label="Nombre" v-model="usuario.nombre"> </v-text-field>
+              <v-text-field label="Contraseña" v-model="usuario.pass"> </v-text-field>
             </form>
           </v-card-text>
           <v-card-actions class="pt-0">
@@ -24,25 +24,52 @@
   </v-container>
 </template>
 
-<script>
+<script> 
+import { mapMutations, mapActions } from 'vuex'
 export default {
   name: "login",
   data() {
     return {
-      nombre: "",
-      pass: "",
+      usuario: {
+        nombre: '',
+        pass: ''
+      }
     };
   },
+
+  computed: {
+    
+  },
+
   methods: {
+    ...mapMutations([
+      'setUsuario',
+      'setUserToken'
+    ]),
+    ...mapActions([
+      'getToken'
+    ]),
+
+    setUser () {
+      this.$store.commit('setUsuario', this.usuario)
+    },
+
+    getToken() {
+      this.$store.dispatch('getToken')
+    },
+
     login() {
-      if (this.nombre === "Esteban" && this.pass === "1234") {
+      this.setUser()
+      this.getToken()
+      
+      /* if (this.usuario.nombre === "Esteban" && this.usuario.pass === "1234") {
         this.$store.commit("setAuth", true);
         this.$router.replace({
           name: "HomeView",
         });
       } else {
         console.log("datos incorrectos");
-      }
+      } */
     },
   },
 };
