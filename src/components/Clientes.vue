@@ -1,25 +1,31 @@
 <template>
   <v-container class="container">
-    <table border="1" width="480px">
-      <thead>
-        <td>Nombre</td>
-        <td>Direccion</td>
-        <td>Ciudad</td>
-        <td>Funciones</td>
-      </thead>
-      <tr v-for="cliente in clientes" :key="cliente.descripcion">
-        <td>{{ cliente.descripcion }}</td>
-        <td>{{ cliente.direccion }}</td>
-        <td>{{ cliente.ciudad }}</td>
-        <td>
-          <tr id="funciones">
-            <td class="funcionesCelda"><button class="btn" @click="goAgregar()">A</button></td>
-            <td class="funcionesCelda"><button class="btn">B</button></td>
-            <td class="funcionesCelda"><button class="btn">M</button></td>
-          </tr>
-        </td>
-      </tr>
-    </table>
+    <div class="tabla">
+      <h2>Listado de Clientes</h2>
+      {{ clientes }}
+      <table border="1" width="480px" id="table">
+        <thead>
+          <td>Nombre</td>
+          <td>Direccion</td>
+          <td>Ciudad</td>
+          <td>Funciones</td>
+        </thead>
+        <tr v-for="cliente in clientes" :key="cliente.descripcion">
+          <td>{{ cliente.descripcion }}</td>
+          <td>{{ cliente.direccion }}</td>
+          <td>{{ cliente.ciudad }}</td>
+          <td>
+            <tr id="funciones">
+              <td class="funcionesCelda">
+                <button class="btn" @click="goAgregar()">A</button>
+              </td>
+              <td class="funcionesCelda"><button class="btn">B</button></td>
+              <td class="funcionesCelda"><button class="btn">M</button></td>
+            </tr>
+          </td>
+        </tr>
+      </table>
+    </div>
 
     <form action="" id="formClientes">
       <h1>ABM Clientes (CSS)</h1>
@@ -67,6 +73,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   name: "Clientes",
   data() {
@@ -76,22 +83,19 @@ export default {
         direccion: "",
         ciudadSelec: "",
       },
-      clientes: [
-        {
-          descripcion: "Mirta",
-          direccion: "mairu 544",
-          ciudad: "Capital",
-        },
-        {
-          descripcion: "Refans",
-          direccion: "mairu 544",
-          ciudad: "Rosario",
-        },
-      ],
     };
   },
 
+  mounted() {
+    this.$store.dispatch("getClientes");
+  },
+
+  computed: {
+    ...mapState(["clientes"]),
+  },
+
   methods: {
+    ...mapActions,
     guardarCliente() {
       console.log(
         this.cliente.descripcion,
@@ -101,11 +105,13 @@ export default {
       this.$store.commit("setCliente", this.cliente);
     },
     goAgregar() {
-    console.log('Agrego clientes')
-  }
-  },
+      console.log("Agrego clientes");
+    },
 
-  
+    myFuncion() {
+      console.log("hola");
+    },
+  },
 };
 </script>
 
@@ -174,22 +180,20 @@ label {
 }
 
 .btn {
-  
   cursor: pointer;
-  
+
   display: block;
   width: 100%;
-  
 }
 
 .btn:hover {
- background-color: rgb(0, 89, 255);
+  background-color: rgb(0, 89, 255);
 }
 
 .btn:active {
-            transform: scale(0.9);
-            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-        }
+  transform: scale(0.9);
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}
 
 #funciones {
   display: flex;
@@ -199,5 +203,19 @@ label {
 .funcionesCelda {
   flex-grow: 1;
   padding: 0;
+}
+
+.tabla {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  margin: o auto;
+}
+
+#table {
+  margin: 0 auto;
+  background-color: rgb(204, 229, 250);
 }
 </style>
