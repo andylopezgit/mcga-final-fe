@@ -52,9 +52,9 @@ export default new Vuex.Store({
       state.userToken.token = payload
     },
 
-    setAuth(state, payload) {
-      state.auth = payload
-    },
+    // setAuth(state, payload) {
+    //   state.auth = payload
+    // },
 
 
     //Agrego retiro para luego enviarlo a al endpoint
