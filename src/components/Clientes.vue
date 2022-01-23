@@ -18,7 +18,7 @@
               <td class="funcionesCelda">
                 <button class="btn" @click="goAgregar()">A</button>
               </td>
-              <td class="funcionesCelda"><button class="btn">B</button></td>
+              <td class="funcionesCelda" @click="deleteCliente(cliente._id)"><button class="btn">B</button></td>
               <td class="funcionesCelda"><button class="btn">M</button></td>
             </tr>
           </td>
@@ -43,7 +43,8 @@
 </template>
 
 <script>
-import {  mapState } from "vuex";
+import axios from 'axios';
+import {  mapState } from "vuex"
 import abmClientes from './abmClientes.vue'
 export default {
   name: "Clientes",
@@ -82,11 +83,22 @@ export default {
     variableHijo(data) {
       this.dialog = data
       console.log('viene el dato: ',data)
-    }
-  },
-};
+    },
 
- 
+    deleteCliente (val) {
+      let id = val
+      let config = {
+        headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0' }
+      }
+      axios
+        .delete(`https://mcga-rama-middle.herokuapp.com/api/delete-cliente/${id}`, config)
+        .then((response) => {
+          console.log('Se elimino correctamente: ', response)
+        .then(this.$store.dispatch("getClientes"))
+        }) .catch((error) => console.log(error))
+    }
+  }
+}
 </script>
 
 <style>

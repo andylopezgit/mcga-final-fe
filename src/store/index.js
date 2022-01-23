@@ -101,7 +101,7 @@ export default new Vuex.Store({
 
     getToken({ state, commit }) {
       axios
-        .post("https://mcga-rama-middle.herokuapp.com/api/login", JSON.stringify(state.usuario))
+        .post("https://mcga-rama-middle.herokuapp.com/api/login", state.usuario, {headers: {'Access-Control-Allow-Origin': '*'}})
         .then((response) => {
           commit("setUserToken", response.data)
         })

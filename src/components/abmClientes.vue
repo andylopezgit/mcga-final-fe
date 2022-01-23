@@ -83,8 +83,8 @@ export default {
     },
     cloceDialog() {
         console.log('cerrar')
-        this.$emit('escucharHijo', 'false')
-    }
+        this.$emit('escucharHijo', false)
+    },
 
     
   },
