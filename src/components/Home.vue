@@ -55,7 +55,7 @@
               </tr>
             </tbody>
 
-            <v-dialog v-model="dialog" width="500">
+            <!-- <v-dialog v-model="dialog" width="500">
               <template>
                 <v-card class="pa-2">
                   <v-card-title> Agregar retiros </v-card-title>
@@ -99,7 +99,7 @@
                   </v-card-text>
                 </v-card>
               </template>
-            </v-dialog>
+            </v-dialog> -->
           </template>
         </v-simple-table>
       </v-card-text>
@@ -225,6 +225,7 @@ export default {
     cliente: ["Mirta Armesto", "Rafans", "Allo"],
   }),
   mounted() {
+    console.log('monted')
     this.$store.dispatch("getRetiros");
   },
 

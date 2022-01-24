@@ -5,10 +5,19 @@
       <v-toolbar-title>Andy App</v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-       <v-btn icon>
-        <v-icon>mdi-apps</v-icon>
-      </v-btn>
+        <v-btn
+        >
+          <router-link to="home">Home</router-link>
+        </v-btn>
+        <v-btn
+        >
+          <router-link to="about">Clientes</router-link>
+        </v-btn>
+       <v-btn
+       text
+        tile>
+          Logout
+        </v-btn>
     </v-app-bar>
 
     <v-main>

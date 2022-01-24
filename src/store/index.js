@@ -50,6 +50,8 @@ export default new Vuex.Store({
 
     setUserToken(state, payload) {
       state.userToken.token = payload
+      localStorage.setItem('token', payload.token)
+      state.userToken.token = '' || localStorage.getItem('token')
     },
 
     // setAuth(state, payload) {
@@ -105,6 +107,7 @@ export default new Vuex.Store({
         .then((response) => {
           commit("setUserToken", response.data)
         })
+        
         .catch((err) => {
           console.log(err)
         })

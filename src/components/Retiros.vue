@@ -83,14 +83,37 @@ export default {
   methods: {
     ...mapMutations(["agregarRetiro2"]),
     cerrarPanel() {
+      this.$store.dispatch("getRetiros");
       this.$router.replace({
         name: "HomeView",
       });
     },
+     
+     agregarRetiroStore2() {
+      new Promise((res) => {
+        this.$store.commit('addRetiro', this.retiro)
+      this.$store.dispatch('saveretiro')
+      res()
+      })
+      .then(()=> {
+        this.$store.dispatch("getRetiros");
+      })
+      .then(()=>{
+        this.$router.replace({
+        name: "HomeView",
+      });
+      })
+
+    },
 
     agregarRetiroStore() {
       this.$store.commit('addRetiro', this.retiro)
-      this.$store.dispatch('saveretiro')
+      this.$store.dispatch('saveretiro'),
+      // this.$router.replace({
+      //   name: "HomeView",
+      // });
+      this.$store.dispatch("getRetiros");
+
     },
   },
 

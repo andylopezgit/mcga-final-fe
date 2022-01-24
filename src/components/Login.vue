@@ -61,17 +61,14 @@ export default {
     login() {
       this.setUser()
       this.getToken()
-      
-      /* if (this.usuario.nombre === "Esteban" && this.usuario.pass === "1234") {
-        this.$store.commit("setAuth", true);
+      setTimeout(() => {
         this.$router.replace({
           name: "HomeView",
-        });
-      } else {
-        console.log("datos incorrectos");
-      } */
-    },
-  },
+        }, 6000); 
+      })
+          
+      }
+    }
 };
 </script>
 

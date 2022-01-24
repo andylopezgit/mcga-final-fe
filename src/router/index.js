@@ -64,7 +64,7 @@ const router = new VueRouter({
 
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   if (to.matched.some(record => record.meta.requireAuth)) {
     if (store.state.userToken.token) {
       console.log('aca')
