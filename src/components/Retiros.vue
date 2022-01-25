@@ -88,33 +88,17 @@ export default {
         name: "HomeView",
       });
     },
-     
-     agregarRetiroStore2() {
-      new Promise((res) => {
-        this.$store.commit('addRetiro', this.retiro)
-      this.$store.dispatch('saveretiro')
-      res()
-      })
-      .then(()=> {
-        this.$store.dispatch("getRetiros");
-      })
-      .then(()=>{
+
+    agregarRetiroStore() {
+      this.$store.commit('addRetiro', this.retiro)
+      this.$store.dispatch('saveretiro').then(()=> {
+        this.$store.dispatch("getRetiros")
         this.$router.replace({
         name: "HomeView",
       });
       })
-
-    },
-
-    agregarRetiroStore() {
-      this.$store.commit('addRetiro', this.retiro)
-      this.$store.dispatch('saveretiro'),
-      // this.$router.replace({
-      //   name: "HomeView",
-      // });
-      this.$store.dispatch("getRetiros");
-
-    },
+      
+    }
   },
 
   computed: {

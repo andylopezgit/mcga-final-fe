@@ -147,11 +147,16 @@ export default new Vuex.Store({
     },
 
     saveretiro({state}) {
-      axios
+      return new Promise((resolve, reject)=> {
+        axios
         .post('https://mcga-be-pruebas-2022.herokuapp.com/api/save-retiro', state.retiro, {headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0'}})
-        .then((response) => {
-          console.log(response)
+        .then(() => {
+          resolve()
+        }).catch (()=> {
+          reject()
         })
+      })
+      
     }
   },
   modules: {},
