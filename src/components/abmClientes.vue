@@ -73,12 +73,15 @@ export default {
   methods: {
     ...mapActions,
     guardarCliente() {
-      console.log(
-        this.cliente.descripcion,
-        this.cliente.direccion,
-        this.cliente.ciudadSelec
-      );
-    //   this.$store.commit("setCliente", this.cliente);
+      // console.log(
+      //   this.cliente.descripcion,
+      //   this.cliente.direccion,
+      //   this.cliente.ciudadSelec
+      // );
+      this.$store.commit('setCliente', this.cliente)
+      this.$store.dispatch("saveclientes");
+      this.$store.dispatch('getClientes')
+      this.$emit('escucharHijo', false)
         
     },
     cloceDialog() {

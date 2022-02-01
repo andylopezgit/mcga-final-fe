@@ -8,8 +8,10 @@
           </v-card-title>
           <v-card-text>
             <form class="pa-2">
-              <v-text-field label="Nombre" v-model="usuario.nombre"> </v-text-field>
-              <v-text-field label="Contraseña" v-model="usuario.pass"> </v-text-field>
+              <v-text-field label="Nombre" v-model="usuario.nombre">
+              </v-text-field>
+              <v-text-field label="Contraseña" v-model="usuario.pass">
+              </v-text-field>
             </form>
           </v-card-text>
           <v-card-actions class="pt-0">
@@ -24,51 +26,42 @@
   </v-container>
 </template>
 
-<script> 
-import { mapMutations, mapActions } from 'vuex'
+<script>
+import { mapMutations, mapActions } from "vuex";
 export default {
   name: "login",
   data() {
     return {
       usuario: {
-        nombre: '',
-        pass: ''
-      }
+        nombre: "",
+        pass: "",
+      },
     };
   },
 
-  computed: {
-    
-  },
+  computed: {},
 
   methods: {
-    ...mapMutations([
-      'setUsuario',
-      'setUserToken'
-    ]),
-    ...mapActions([
-      'getToken'
-    ]),
+    ...mapMutations(["setUsuario", "setUserToken"]),
+    ...mapActions(["getToken"]),
 
-    setUser () {
-      this.$store.commit('setUsuario', this.usuario)
+    setUser() {
+      this.$store.commit("setUsuario", this.usuario);
     },
 
     getToken() {
-      this.$store.dispatch('getToken')
+      this.$store.dispatch("getToken");
     },
 
     login() {
-      this.setUser()
-      this.getToken()
-      setTimeout(() => {
+      this.setUser();
+      this.$store.dispatch('getToken').then(() => {
         this.$router.replace({
           name: "HomeView",
-        }, 6000); 
-      })
-          
-      }
-    }
+        });
+      });
+    },
+  },
 };
 </script>
 

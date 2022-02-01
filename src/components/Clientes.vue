@@ -88,7 +88,7 @@ export default {
     deleteCliente (val) {
       let id = val
       let config = {
-        headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0' }
+        headers: { 'auth': localStorage.getItem('token') }
       }
       axios
         .delete(`https://mcga-rama-middle.herokuapp.com/api/delete-cliente/${id}`, config)

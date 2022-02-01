@@ -49,9 +49,9 @@ export default new Vuex.Store({
     },
 
     setUserToken(state, payload) {
-      state.userToken.token = payload
+      // state.userToken.token = payload
       localStorage.setItem('token', payload.token)
-      state.userToken.token = '' || localStorage.getItem('token')
+      state.userToken.token = localStorage.getItem('token') || '' 
     },
 
     // setAuth(state, payload) {
@@ -62,7 +62,7 @@ export default new Vuex.Store({
     //Agrego retiro para luego enviarlo a al endpoint
     addRetiro(state, payload) {
       state.retiro.cliente = payload.cliente,
-      state.retiro.descripcion = payload.descripcion
+        state.retiro.descripcion = payload.descripcion
       state.retiro.estado = payload.estado
     },
 
@@ -89,28 +89,31 @@ export default new Vuex.Store({
       // let config = {
       //   headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0' }
       // }
-      axios
-        .post('https://mcga-rama-middle.herokuapp.com/api/save-cliente', state.cliente, { headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0' } })
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      // axios
+      //   .post('https://mcga-rama-middle.herokuapp.com/api/save-cliente', state.cliente, { headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0' } })
+      //   .then((response) => {
+      //     console.log(response)
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //   })
     }
   },
   actions: {
 
     getToken({ state, commit }) {
-      axios
-        .post("https://mcga-rama-middle.herokuapp.com/api/login", state.usuario, {headers: {'Access-Control-Allow-Origin': '*'}})
-        .then((response) => {
-          commit("setUserToken", response.data)
-        })
-        
-        .catch((err) => {
-          console.log(err)
-        })
+      return new Promise((resolve, reject) => {
+        axios
+          .post("https://mcga-rama-middle.herokuapp.com/api/login", state.usuario, { headers: { 'Access-Control-Allow-Origin': '*' } })
+          .then((response) => {
+            commit("setUserToken", response.data)
+            resolve()
+          })
+          .catch(() => {
+            reject()
+          })
+      })
+
     },
 
     getRetiros({ commit }) {
@@ -126,7 +129,7 @@ export default new Vuex.Store({
 
     getClientes({ commit }) {
       let config = {
-        headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0' }
+        headers: { 'auth': localStorage.getItem('token') }
       }
       axios
         .get("https://mcga-rama-middle.herokuapp.com/api/clientes", config)
@@ -136,27 +139,32 @@ export default new Vuex.Store({
     },
 
     saveclientes({ state }) {
-      let config = {
-        headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2Mzk0ODY3NjJ9.Mxy_36DWeZLN-OX6vyWkhApGi145RRmxa_EzZdbTGDA' }
-      }
-      axios
-        .post('https://mcga-be-pruebas-2022.herokuapp.com/api/save-cliente', config, JSON.stringify(state.cliente))
-        .then((response) => {
-          console.log(response)
-        })
-    },
-
-    saveretiro({state}) {
-      return new Promise((resolve, reject)=> {
+      return new Promise ((resolve, reject) => {
+        let config = {
+          headers: { 'auth': localStorage.getItem('token') }
+        }
         axios
-        .post('https://mcga-be-pruebas-2022.herokuapp.com/api/save-retiro', state.retiro, {headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0'}})
-        .then(() => {
-          resolve()
-        }).catch (()=> {
-          reject()
-        })
+          .post('https://mcga-be-pruebas-2022.herokuapp.com/api/save-cliente', state.cliente, config)
+          .then(() => {
+            resolve()
+          }).catch (()=> {
+            reject()
+          })
       })
       
+    },
+
+    saveretiro({ state }) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('https://mcga-be-pruebas-2022.herokuapp.com/api/save-retiro', state.retiro, { headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0' } })
+          .then(() => {
+            resolve()
+          }).catch(() => {
+            reject()
+          })
+      })
+
     }
   },
   modules: {},

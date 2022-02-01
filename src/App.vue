@@ -2,22 +2,13 @@
   <v-app>
     <v-app-bar app color="primary" dark>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-toolbar-title>Andy App</v-toolbar-title>
+      <v-toolbar-title>MCGA 2022 </v-toolbar-title>
 
       <v-spacer></v-spacer>
-        <v-btn
-        >
-          <router-link to="home">Home</router-link>
-        </v-btn>
-        <v-btn
-        >
-          <router-link to="about">Clientes</router-link>
-        </v-btn>
-       <v-btn
-       text
-        tile>
-          Logout
-        </v-btn>
+    
+        <router-link to="home" class="to">Home</router-link>
+        <router-link to="about" class="to">Clientes</router-link>
+        <router-link to="about" class="to">Logout</router-link>
     </v-app-bar>
 
     <v-main>
@@ -35,3 +26,12 @@ export default {
   }),
 };
 </script>
+
+<style>
+
+.to {
+  color: white !important;
+  margin: 10px;
+  text-decoration: none;
+}
+</style>
