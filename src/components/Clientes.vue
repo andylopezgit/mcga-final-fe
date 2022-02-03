@@ -1,7 +1,11 @@
 <template>
   <v-container class="container">
     <div class="tabla">
-      <h2>Listado de Clientes</h2>
+      <div>
+        <h2 id="subTitle">Listado de Clientes</h2>
+        <button id="btnAdd" @click="goAgregar()">Agregar</button>
+      </div>
+
       <table border="1" width="480px" id="table">
         <thead>
           <td>Nombre</td>
@@ -15,16 +19,18 @@
           <td>{{ cliente.ciudad }}</td>
           <td>
             <tr id="funciones">
-              <td class="funcionesCelda">
+              <!-- <td class="funcionesCelda">
                 <button class="btn" @click="goAgregar()">A</button>
+              </td> -->
+              <td class="funcionesCelda" @click="deleteCliente(cliente._id)">
+                <button class="btn">B</button>
               </td>
-              <td class="funcionesCelda" @click="deleteCliente(cliente._id)"><button class="btn">B</button></td>
               <td class="funcionesCelda"><button class="btn">M</button></td>
             </tr>
           </td>
         </tr>
       </table>
-       {{dialog}}
+      {{ dialog }}
     </div>
 
     <v-dialog
@@ -34,71 +40,97 @@
       transition="dialog-transition"
     >
       <v-card width="600px">
-        <abmClientes @escucharHijo="variableHijo"/>
+        <abmClientes @escucharHijo="variableHijo" />
       </v-card>
-     
-      
+    </v-dialog>
+
+    <v-dialog
+      v-model="dialSeguro"
+      persistent
+      max-width="500px"
+      transition="dialog-transition"
+    >
+      <v-card width="600px">
+        <h2>Esta seguro que desea eliminar el cliente?</h2>
+        <button @click="cerrarDialog">No</button>
+        <button @click="eliminarCliente">Si</button>
+      </v-card>
     </v-dialog>
   </v-container>
 </template>
 
 <script>
-import axios from 'axios';
-import {  mapState } from "vuex"
-import abmClientes from './abmClientes.vue'
+import axios from "axios";
+import { mapState } from "vuex";
+import abmClientes from "./abmClientes.vue";
 export default {
   name: "Clientes",
   components: { abmClientes },
   data() {
     return {
       dialog: false,
+      dialSeguro: false,
       cliente: {
         descripcion: "",
         direccion: "",
         ciudadSelec: "",
       },
-    
+      idCliente: "",
     };
-
-   
   },
 
- mounted() {
+  mounted() {
     this.$store.dispatch("getClientes");
-    
   },
 
   computed: {
-    ...mapState([
-      'clientes'
-    ])
-
+    ...mapState(["clientes"]),
   },
-  
+
   methods: {
     goAgregar() {
-      this.dialog = true
+      this.dialog = true;
+    },
+
+    cerrarDialog() {
+      this.dialSeguro = false;
+    },
+
+    eliminarCliente() {
+      let id = this.idCliente;
+      console.log(id)
+      let config = {
+        headers: { auth: localStorage.getItem("token") },
+      };
+      axios
+        .delete(
+          `https://mcga-rama-middle.herokuapp.com/api/delete-cliente/${id}`,
+          config
+        )
+        .then((response) => {
+          console
+            .log("Se elimino correctamente: ", response)
+        })
+        .then(()=> {
+          this.$store.dispatch("getClientes");
+        })
+        .then(() => {
+          this.dialSeguro = false
+        })
+        .catch((error) => console.log(error));
     },
 
     variableHijo(data) {
-      this.dialog = data
-      console.log('viene el dato: ',data)
+      this.dialog = data;
+      console.log("viene el dato: ", data);
     },
 
-    deleteCliente (val) {
-      let id = val
-      let config = {
-        headers: { 'auth': localStorage.getItem('token') }
-      }
-      axios
-        .delete(`https://mcga-rama-middle.herokuapp.com/api/delete-cliente/${id}`, config)
-        .then((response) => {
-          console.log('Se elimino correctamente: ', response)
-        .then(this.$store.dispatch("getClientes"))
-        }) .catch((error) => console.log(error))
-    }
-  }
-}
+    deleteCliente(val) {
+      this.dialSeguro = true;
+      this.idCliente = val;
+    },
+  },
+};
 </script>
 
 <style>
@@ -128,5 +160,14 @@ export default {
 #table {
   margin: 0 auto;
   background-color: rgb(204, 229, 250);
+}
+
+#subTitle {
+  display: inline;
+}
+
+#btnAdd {
+  color: green;
+  margin-left: 10px;
 }
 </style>

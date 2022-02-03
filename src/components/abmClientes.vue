@@ -79,9 +79,14 @@ export default {
       //   this.cliente.ciudadSelec
       // );
       this.$store.commit('setCliente', this.cliente)
-      this.$store.dispatch("saveclientes");
-      this.$store.dispatch('getClientes')
-      this.$emit('escucharHijo', false)
+      this.$store.dispatch("saveclientes").then(() => {
+        this.$store.dispatch('getClientes')
+      }
+      ).then(() => {
+        this.$emit('escucharHijo', false)
+      });
+      
+      
         
     },
     cloceDialog() {
