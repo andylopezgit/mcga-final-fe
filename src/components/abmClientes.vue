@@ -1,8 +1,9 @@
 <template>
   <v-container>
-    <v-card width="500px">
+    <v-card width="800px">
       <form action="" id="formClientes">
         <h1>ABM Clientes (CSS)</h1>
+        <h4 v-if="clienteNombre"> <span style="color:blue; margin-right: 5px">Modificar cliente:  </span>   {{clienteNombre}} - {{clienteDireccion}} - {{clienteCiudad}} </h4>
         <input
           type="text"
           placeholder="Descripcion"
@@ -11,7 +12,7 @@
         />
         <input
           type="text"
-          placeholder="direccion"
+          placeholder="Direccion"
           class="input-text"
           v-model="cliente.direccion"
         />
@@ -52,6 +53,9 @@
 
         
       </form>
+      hola
+      {{clienteNombre}}
+      {{clienteDireccion}}
     </v-card>
   </v-container>
 </template>
@@ -60,6 +64,7 @@
 import { mapActions } from "vuex";
 export default {
   name: "abmClientes",
+  props: ["clienteNombre", "clienteDireccion", "clienteCiudad"],
   data() {
     return {
       cliente: {
@@ -106,7 +111,7 @@ export default {
 
 #formClientes {
   display: flex;
-  width: 400px;
+  width: 600px;
   flex-direction: column;
   margin: 0 auto;
   margin-top: 50px;

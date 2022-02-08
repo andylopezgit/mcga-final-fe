@@ -2,7 +2,7 @@
   <v-container class="container">
     <div class="tabla">
       <div>
-        <h2 id="subTitle">Listado de Clientes</h2>
+        <h2 id="subTitle">ABM - Listado de Clientes</h2>
         <button id="btnAdd" @click="goAgregar()">Agregar</button>
       </div>
 
@@ -25,29 +25,28 @@
               <td class="funcionesCelda" @click="deleteCliente(cliente._id)">
                 <button class="btn">B</button>
               </td>
-              <td class="funcionesCelda"><button class="btn">M</button></td>
+              <td class="funcionesCelda"><button class="btn" @click="changeCliente(cliente._id)">M</button></td>
             </tr>
           </td>
         </tr>
       </table>
-      {{ dialog }}
     </div>
 
     <v-dialog
       v-model="dialog"
       persistent
-      max-width="500px"
+      max-width="800px"
       transition="dialog-transition"
     >
-      <v-card width="600px">
-        <abmClientes @escucharHijo="variableHijo" />
+      <v-card width="800px">
+        <abmClientes @escucharHijo="variableHijo" :clienteNombre=cli.descripcion :clienteDireccion=cli.direccion :clienteCiudad=cli.ciudad />
       </v-card>
     </v-dialog>
 
     <v-dialog
       v-model="dialSeguro"
       persistent
-      max-width="500px"
+      max-width="900px"
       transition="dialog-transition"
     >
       <v-card width="600px">
@@ -71,11 +70,14 @@ export default {
       dialog: false,
       dialSeguro: false,
       cliente: {
-        descripcion: "",
+        descripcion: "sss",
         direccion: "",
         ciudadSelec: "",
       },
       idCliente: "",
+      tochange: '',
+      id: '',
+      cli: {}
     };
   },
 
@@ -89,6 +91,7 @@ export default {
 
   methods: {
     goAgregar() {
+      this.cli = ''
       this.dialog = true;
     },
 
@@ -129,6 +132,17 @@ export default {
       this.dialSeguro = true;
       this.idCliente = val;
     },
+
+    changeCliente(id) {
+      this.id = id
+      this.tochange = this.clientes.forEach(cliente => {
+          if (cliente._id === this.id) {
+              this.cli = cliente
+          }
+          
+      });
+      this.dialog = true;
+    }
   },
 };
 </script>
