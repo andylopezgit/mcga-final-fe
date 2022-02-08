@@ -22,8 +22,8 @@
               <!-- <td class="funcionesCelda">
                 <button class="btn" @click="goAgregar()">A</button>
               </td> -->
-              <td class="funcionesCelda" @click="deleteCliente(cliente._id)">
-                <button class="btn">B</button>
+              <td class="funcionesCelda" >
+                <button class="btn" @click="deleteCliente(cliente._id)">B</button>
               </td>
               <td class="funcionesCelda"><button class="btn" @click="changeCliente(cliente._id)">M</button></td>
             </tr>
@@ -107,7 +107,7 @@ export default {
       };
       axios
         .delete(
-          `https://mcga-rama-middle.herokuapp.com/api/delete-cliente/${id}`,
+          `https://mcga-rama-middle.herokuapp.com/api/delete-cliente/${id}`  ,
           config
         )
         .then((response) => {
@@ -141,6 +141,7 @@ export default {
           }
           
       });
+      console.log(this.id)
       this.dialog = true;
     }
   },

@@ -3,7 +3,11 @@
     <v-card width="800px">
       <form action="" id="formClientes">
         <h1>ABM Clientes (CSS)</h1>
-        <h4 v-if="clienteNombre"> <span style="color:blue; margin-right: 5px">Modificar cliente:  </span>   {{clienteNombre}} - {{clienteDireccion}} - {{clienteCiudad}} </h4>
+        <h4>
+          <span
+            >Modificar cliente:
+          </span>
+        </h4>
         <input
           type="text"
           placeholder="Descripcion"
@@ -37,25 +41,26 @@
           </select>
         </div>
         <div id="sectorButton">
-            <input
-          type="button"
-          value="Cerrar"
-          id="btn-cerrar"
-          @click="cloceDialog"
-        />
-        <input
-          type="button"
-          value="Guardar"
-          id="btn-guardar"
-          @click="guardarCliente"
-        />
+          <input
+            type="button"
+            value="Cerrar"
+            id="btn-cerrar"
+            @click="cloDialog"
+          />
+          <input
+            type="button"
+            value="Guardar"
+            id="btn-guardar"
+            @click="guardarCliente"
+          />
+          <input
+            type="button"
+            value="Modificar"
+            id="btn-guardar"
+            @click="modificarCliente"
+          />
         </div>
-
-        
       </form>
-      hola
-      {{clienteNombre}}
-      {{clienteDireccion}}
     </v-card>
   </v-container>
 </template>
@@ -83,23 +88,32 @@ export default {
       //   this.cliente.direccion,
       //   this.cliente.ciudadSelec
       // );
-      this.$store.commit('setCliente', this.cliente)
-      this.$store.dispatch("saveclientes").then(() => {
-        this.$store.dispatch('getClientes')
-      }
-      ).then(() => {
-        this.$emit('escucharHijo', false)
-      });
-      
-      
-        
+      this.$store.commit("setCliente", this.cliente);
+      this.$store
+        .dispatch("saveclientes")
+        .then(() => {
+          this.$store.dispatch("getClientes");
+        })
+        .then(() => {
+          this.$emit("escucharHijo", false);
+        });
     },
-    cloceDialog() {
-        console.log('cerrar')
-        this.$emit('escucharHijo', false)
+    cloDialog() {
+      console.log("cerrar");
+      this.$emit("escucharHijo", false);
     },
 
-    
+    modificarCliente() {
+      this.$store.commit("setCliente", this.cliente);
+      this.$store
+        .dispatch("updatecliente")
+        .then(() => {
+          this.$store.dispatch("getClientes");
+        })
+        .then(() => {
+          this.$emit("escucharHijo", false);
+        });
+    }
   },
 };
 </script>
@@ -155,14 +169,12 @@ label {
 }
 
 .sectorButton {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
-
-
-#btn-guardar { 
-  width: 150px;   
+#btn-guardar {
+  width: 150px;
   background-color: rgb(68, 205, 50);
   margin: 1rem;
   height: 50px;
@@ -170,8 +182,8 @@ label {
   flex-grow: 1;
 }
 
-#btn-cerrar { 
-  width: 150px;   
+#btn-cerrar {
+  width: 150px;
   background-color: rgb(204, 63, 38);
   margin: 1rem;
   height: 50px;
