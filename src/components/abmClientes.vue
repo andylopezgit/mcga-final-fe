@@ -5,7 +5,7 @@
         <h1>ABM Clientes (CSS)</h1>
         <h4>
           <span
-            >Modificar cliente:
+            >Modificar cliente id: {{idClienteVuex}}
           </span>
         </h4>
         <input
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "abmClientes",
   props: ["clienteNombre", "clienteDireccion", "clienteCiudad"],
@@ -78,6 +78,10 @@ export default {
         ciudadSelec: "",
       },
     };
+  },
+
+  computed: {
+    ...mapState(['idClienteVuex'])
   },
 
   methods: {

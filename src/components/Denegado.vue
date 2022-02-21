@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <div>
     <v-row justify="center" style="height: 70vh" align="center">
       <v-card elevation="0">
         <v-card-text>
@@ -7,7 +7,7 @@
         </v-card-text>
       </v-card>
     </v-row>
-  </v-content>
+  </div>
 </template>
 
 <script>

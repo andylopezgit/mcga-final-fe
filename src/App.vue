@@ -8,7 +8,7 @@
     
         <router-link to="home" class="to">Home</router-link>
         <router-link to="about" class="to">Clientes</router-link>
-        <router-link to="about" class="to">Logout</router-link>
+        <router-link to="" class="to"><button @click="logOut">Logout</button></router-link>
     </v-app-bar>
 
     <v-main>
@@ -24,6 +24,17 @@ export default {
   data: () => ({
     //
   }),
+  methods: {
+    logOut() {
+      let token_act = localStorage.getItem('token')
+      console.log('token es: ', token_act)
+      token_act = localStorage.setItem('token', '')
+      console.log('token actual es: ', token_act)
+      this.$router.replace({
+        name: "denegado",
+      });
+    }
+  }
 };
 </script>
 

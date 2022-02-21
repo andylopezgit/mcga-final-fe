@@ -2,7 +2,7 @@
   <v-container class="container">
     <div class="tabla">
       <div>
-        <h2 id="subTitle">ABM - Listado de Clientes</h2>
+        <h2 id="subTitle">ABM - Listado de Clientes</h2>{{idClienteVuex}}
         <button id="btnAdd" @click="goAgregar()">Agregar</button>
       </div>
 
@@ -60,7 +60,7 @@
 
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import abmClientes from "./abmClientes.vue";
 export default {
   name: "Clientes",
@@ -86,10 +86,11 @@ export default {
   },
 
   computed: {
-    ...mapState(["clientes"]),
+    ...mapState(["clientes", "idClienteVuex"]),
   },
 
   methods: {
+    ...mapMutations,
     goAgregar() {
       this.cli = ''
       this.dialog = true;
@@ -135,6 +136,7 @@ export default {
 
     changeCliente(id) {
       this.id = id
+      this.$store.commit('setIdCliente', this.id)
       this.tochange = this.clientes.forEach(cliente => {
           if (cliente._id === this.id) {
               this.cli = cliente

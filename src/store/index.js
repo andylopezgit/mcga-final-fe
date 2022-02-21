@@ -14,7 +14,8 @@ export default new Vuex.Store({
 
     },
 
-    idCliente: '',
+    idClienteVuex: '',
+
     cliente: {
       descripcion: '',
       direccion: '',
@@ -39,6 +40,10 @@ export default new Vuex.Store({
     clientes: []
   },
   mutations: {
+
+    setIdCliente(state, payload) {
+      state.idClienteVuex = payload
+    },
 
     increment(state) {
       // mutate state
@@ -157,13 +162,13 @@ export default new Vuex.Store({
     },
 
     updatecliente({ state }) {
-      // let id = '62022bc59678b4084febf6ea'
+      let id = state.idClienteVuex
       return new Promise ((resolve, reject) => {
         let config = {
           headers: { 'auth': localStorage.getItem('token') }
         }
         axios
-          .put(`https://mcga-be-pruebas-2022.herokuapp.com/api/update-cliente/62022bc59678b4084febf6ea`, state.cliente, config)
+          .put(`https://mcga-be-pruebas-2022.herokuapp.com/api/update-cliente/${id}`, state.cliente, config)
           .then(() => {
             resolve()
           }).catch (()=> {
