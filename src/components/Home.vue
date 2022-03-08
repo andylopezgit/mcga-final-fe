@@ -49,7 +49,7 @@
                 <td>
                   <v-checkbox
                     v-model="item.estado"
-                    @click="funcion"
+                    @click="cambiarEstadoRetiro(item._id, item.estado)"
                   ></v-checkbox>
                 </td>
               </tr>
@@ -127,7 +127,7 @@
                   <tbody>
                     <tr
                       v-for="item in retiros"
-                      :key="item.id"
+                      :key="item._id"
                       v-show="item.estado === false"
                     >
                       <td>
@@ -145,7 +145,7 @@
                       <td>
                         <v-checkbox
                           v-model="item.estado"
-                          @click="funcion"
+                          @click="cambiarEstadoRetiro(item._id, item.estado)"
                         ></v-checkbox>
                       </td>
                     </tr>
@@ -250,9 +250,15 @@ export default {
       this.dialog = false;
     },
 
-    funcion() {
-      this.$store.commit("setEstadoRetiro", false);
-    },
+    cambiarEstadoRetiro(valId, valEstado) {
+      let idN = valId
+      let estado = valEstado
+      this.$store.commit("setId", idN)
+      this.$store.commit("setRetiroEstado", estado )
+      console.log('cambio el estado: reiro N° id: ', idN, ' estado: ', estado)
+      this.$store.dispatch("updateEstateRetiro").then(this.$store.dispatch("getRetiros"))
+        
+      }
   },
   computed: {
     ...mapState({

@@ -3,7 +3,7 @@
     <v-row justify="center" style="height: 70vh" align="center">
       <v-card elevation="0">
         <v-card-text>
-          <h2>Acceso denegado, redireccionando en ...</h2>
+          <h2>Acceso denegado, redireccionando.</h2>
         </v-card-text>
       </v-card>
     </v-row>

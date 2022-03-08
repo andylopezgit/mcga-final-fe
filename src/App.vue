@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="primary" dark v-if="logueado">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
       <v-toolbar-title>MCGA 2022 </v-toolbar-title>
 
@@ -22,16 +22,23 @@ export default {
   name: "App",
 
   data: () => ({
-    //
+    
   }),
+
+  computed: {
+    logueado () {
+      return this.$store.state.logueado
+    }
+  },
+
   methods: {
     logOut() {
       let token_act = localStorage.getItem('token')
-      console.log('token es: ', token_act)
+      console.log('token es actual es: ', token_act)
       token_act = localStorage.setItem('token', '')
-      console.log('token actual es: ', token_act)
+      console.log('token despues del logout: ', token_act)
       this.$router.replace({
-        name: "denegado",
+        name: "LogOut",
       });
     }
   }

@@ -14,6 +14,8 @@ export default new Vuex.Store({
 
     },
 
+    logueado: false,
+
     idClienteVuex: '',
 
     cliente: {
@@ -23,13 +25,16 @@ export default new Vuex.Store({
 
     },
 
+
+
     retiro: {
-      cliete: '',
+      cliente: '',
       descripcion: '',
-      estado: ''
+      estado: '',
 
     },
 
+    retiroId: Boolean,
 
     userToken: {
       token: ''
@@ -40,6 +45,10 @@ export default new Vuex.Store({
     clientes: []
   },
   mutations: {
+
+    setLogueado(state, payload) {
+      state.logueado = payload
+    },
 
     setIdCliente(state, payload) {
       state.idClienteVuex = payload
@@ -58,7 +67,7 @@ export default new Vuex.Store({
     setUserToken(state, payload) {
       // state.userToken.token = payload
       localStorage.setItem('token', payload.token)
-      state.userToken.token = localStorage.getItem('token') || '' 
+      state.userToken.token = localStorage.getItem('token') || ''
     },
 
     // setAuth(state, payload) {
@@ -67,10 +76,17 @@ export default new Vuex.Store({
 
 
     //Agrego retiro para luego enviarlo a al endpoint
+
     addRetiro(state, payload) {
       state.retiro.cliente = payload.cliente,
         state.retiro.descripcion = payload.descripcion
       state.retiro.estado = payload.estado
+    },
+
+    //cambio estado del retiro
+
+    setRetiroEstado(state, payload) {
+      state.retiro.estado = payload
     },
 
     setDatos(state, payload) {
@@ -82,11 +98,15 @@ export default new Vuex.Store({
     },
 
     setEstadoRetiro(state, payload) {
-      state.retiros2.estado = payload;
+      state.retiro.estado = payload;
     },
 
     setClientes(state, payload) {
       state.clientes = payload
+    },
+
+    setId(state, payload) {
+      state.retiroId = payload
     },
 
     setCliente(state, payload) {
@@ -114,12 +134,39 @@ export default new Vuex.Store({
           .post("https://mcga-rama-middle.herokuapp.com/api/login", state.usuario, { headers: { 'Access-Control-Allow-Origin': '*' } })
           .then((response) => {
             commit("setUserToken", response.data)
-            resolve()
+            resolve(console.log('Login Exitoso'))
+            console.log('llego hasta aca')
+            commit("setLogueado", true)
           })
           .catch(() => {
-            reject()
+            reject(console.log('Login fallido'))
           })
       })
+
+    },
+
+    //cambio el estado del retiro (true o false)
+
+    updateEstateRetiro({ state }) {
+      return new Promise((resolve, reject) => {
+        let id = state.retiroId
+        let estado = state.retiro
+        let config = {
+          headers: { 'auth': localStorage.getItem('token') }
+        }
+        console.log('el id es', id, 'payload', estado)
+        axios
+          .put(`https://mcga-be-pruebas-2022.herokuapp.com/api/update-retiro/${id}`, estado, config)
+          .then(() => {
+            resolve()
+          }).catch((e) => {
+            console.log(e)
+            reject()
+          })
+
+      })
+
+
 
     },
 
@@ -128,7 +175,7 @@ export default new Vuex.Store({
         headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0' },
       }
       axios
-        .get("https://mcga-rama-middle.herokuapp.com/api/retiros", config)
+        .get("https://mcga-be-pruebas-2022.herokuapp.com/api/retiros", config)
         .then((response) => {
           commit("agregarRetiros", response.data);
         });
@@ -146,7 +193,7 @@ export default new Vuex.Store({
     },
 
     saveclientes({ state }) {
-      return new Promise ((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         let config = {
           headers: { 'auth': localStorage.getItem('token') }
         }
@@ -154,24 +201,24 @@ export default new Vuex.Store({
           .post('https://mcga-be-pruebas-2022.herokuapp.com/api/save-cliente', state.cliente, config)
           .then(() => {
             resolve()
-          }).catch (()=> {
+          }).catch(() => {
             reject()
           })
       })
-      
+
     },
 
     updatecliente({ state }) {
       let id = state.idClienteVuex
-      return new Promise ((resolve, reject) => {
-        let config = {
-          headers: { 'auth': localStorage.getItem('token') }
-        }
+      return new Promise((resolve, reject) => {
+        // let config = {
+        //   headers: { 'auth': localStorage.getItem('token') }
+        // }
         axios
-          .put(`https://mcga-be-pruebas-2022.herokuapp.com/api/update-cliente/${id}`, state.cliente, config)
+          .put(`https://mcga-be-pruebas-2022.herokuapp.com/api/update-cliente/${id}`, state.cliente, { headers: { 'auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5vbWJyZSI6IkVzdGViYW4iLCJwYXNzIjoiMTIzNCJ9LCJpYXQiOjE2NDE5MzYyNjN9.khXDzYAszAP4tJBirlv_DqV5zkCfGnMxwRL4zI_WTl0' } })
           .then(() => {
             resolve()
-          }).catch (()=> {
+          }).catch(() => {
             reject()
           })
       })

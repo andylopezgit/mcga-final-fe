@@ -25,21 +25,23 @@ const routes = [
 
   {
     path: "/home",
-    meta: { requireAuth: true },
     name: "HomeView",
     component: Home,
+    meta: { requireAuth: true },
+
     children: [
       {
         path: "/retiros-panel",
         name: "retiros-panel",
         component: RetirosPanel,
+        meta: { requireAuth: true }
       },
     ],
   },
   {
     path: "/about",
     name: "About",
-    meta: { requireAuth: true},
+    meta: { requireAuth: true },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -49,10 +51,15 @@ const routes = [
   {
     path: "/login",
     name: "LoginView",
-
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LoginView"),
   },
+
+  {
+    path: "/logout",
+    name: "LogOut",
+    component: () => import("@/components/LogoutPage")
+  }
 ];
 
 
@@ -64,17 +71,18 @@ const router = new VueRouter({
 
 });
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  console.log(store.state.userToken.token)
   if (to.matched.some(record => record.meta.requireAuth)) {
-    if (store.state.userToken.token) {
-      console.log('aca')
+    if (store.state.userToken.token != "") {
+      console.log('Acceso permitido')
       next();
     } else {
-      console.log('aqui')
+      console.log('Acceso denegado')
       next({ name: "denegado" });
     }
   } else {
-    console.log('alla')
+    console.log('no tiene un token')
     next();
   }
 });
